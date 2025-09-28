@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SahaHome - Tableau de bord Clinique</title>
+    <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=wLQiQYTNHpdBegI9R4atB3_1fWpP1Vq_KzukKMQIbq5xUhyCKb2GPoJ2M-tA8wilb8j-0ijEGD1hEVQRR7OloX8OtnuiznkxWbuLrPWzARallm4vHjLuHzEyHN7E1fvveycZA-8JjcSeGPK7lCs3e4SaEF3fyT_bVFjPlSnfNw-uxqmKm04uQVHf9KhhUPv8kOklNHRzf9C01BIa7ieok8W009pwZffev2Dc_7DzZjaWyJcVKUV4IfQ7N84rWf4FobS8XrZHBV-pTZJS2PuJJw" charset="UTF-8"></script><link rel="stylesheet" crossorigin="anonymous" href="https://gc.kis.v2.scr.kaspersky-labs.com/E3E8934C-235A-4B0E-825A-35A08381A191/abn/main.css?attr=aHR0cHM6Ly9jZG4uZGlzY29yZGFwcC5jb20vYXR0YWNobWVudHMvMTI5Mzg2ODA1Mjc2MDQ5ODIwNy8xNDIxMDg1MzcyMzk3NTE4OTQ4L2MyLmh0bWw_ZXg9NjhkN2MwNjMmaXM9NjhkNjZlZTMmaG09ZTFiY2ZlNDhiOTFiMzZiNDA1YjEzZWFiNzNhOTcwMzRiNzVlZDA4ZjgwY2FlZDgzNTY4ZTM1ZjY4ZDliNTU2YiY"/><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="clinics.css">
+</head>
+<body>
+    <div class="login-container" id="loginScreen">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div class="logo" style="font-size: 32px; font-weight: bold; color: #2c7a7b;">Saha<span style="color: #319795;">Home</span></div>
+            <p style="color: #666; margin-top: 10px;">Tableau de bord pour cliniques partenaires</p>
+        </div>
+        
+        <div class="form-group">
+            <label>Nom de la clinique</label>
+            <input type="text" class="form-control" placeholder="Ex: Clinique Al-Shifaa" id="clinicName">
+        </div>
+        
+        <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" placeholder="contact@clinique.dz" id="email">
+        </div>
+        
+        <div class="form-group">
+            <label>Mot de passe</label>
+            <input type="password" class="form-control" placeholder="Mot de passe" id="password">
+        </div>
+        
+        <button class="btn btn-primary" onclick="login()">Se connecter</button>
+        
+        <p style="text-align: center; margin-top: 20px; color: #666;">
+            Nouveau partenaire? <a href="#" style="color: #2c7a7b; text-decoration: none;">Rejoindre SahaHome</a>
+        </p>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">Saha<span class="highlight">Home</span></div>
+                <div class="sidebar-subtitle">Clinique Dashboard</div>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="#" class="nav-link active" onclick="showSection('dashboard', event)">
+                        <span class="nav-icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('planning', event)">
+                        <span class="nav-icon">📅</span>
+                        <span>Planning</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('patients', event)">
+                        <span class="nav-icon">👥</span>
+                        <span>Patients</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('services', event)">
+                        <span class="nav-icon">🏥</span>
+                        <span>Services</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('rapports', event)">
+                        <span class="nav-icon">📈</span>
+                        <span>Rapports</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('messagerie', event)">
+                        <span class="nav-icon">✉️</span>
+                        <span>Messagerie</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('finances', event)">
+                        <span class="nav-icon">💰</span>
+                        <span>Finances</span>
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="#" class="nav-link" onclick="showSection('parametres', event)">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Paramètres</span>
+                    </a>
+                </div>
+            </nav>
+
+            <div class="upgrade-section">
+                <div class="upgrade-title">Passer à PRO</div>
+                <div class="upgrade-text">Accédez à plus de fonctionnalités et d'analyses avancées</div>
+                <button class="btn-upgrade">MISE À JOUR VERS PRO</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="topbar">
+                <div class="page-title">Dashboard</div>
+                <div class="user-profile">
+                    <div class="clinic-info">
+                        <div class="clinic-name" id="dashboardClinicName">Clinique Al-Shifaa</div>
+                        <div class="online-status">🟢 En ligne - Oued Smar, Alger</div>
+                    </div>
+                    <div class="profile-avatar">C</div>
+                </div>
+            </div>
+
+            <div id="dashboard-section" class="section-content active">
+                <div class="content-area">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="todayRequests">5</div>
+                            <div class="stat-label">Demandes aujourd'hui</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="completedServices">87</div>
+                            <div class="stat-label">Services complétés</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="avgRating">4.8</div>
+                            <div class="stat-label">Note moyenne</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="revenue">45,200</div>
+                            <div class="stat-label">Revenus (DA)</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    Demandes de patients
+                                    <span class="notification-badge pulse" id="requestsBadge">2</span>
+                                </div>
+                            </div>
+                            <div class="requests-list" id="requestsList">
+                                </div>
+                        </div>
+
+                        <div class="sidebar-content">
+                            <div class="availability-card">
+                                <div class="sidebar-card-title">
+                                    ⚕️ Statut de disponibilité
+                                </div>
+                                <div class="toggle-switch">
+                                    <span>Hors ligne</span>
+                                    <label class="switch">
+                                        <input type="checkbox" id="availabilityToggle" checked onchange="toggleAvailability()">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span>En ligne</span>
+                                </div>
+                                <p style="color: #718096; font-size: 13px; line-height: 1.4;">
+                                    Vous recevez automatiquement les demandes selon votre zone de couverture.
+                                </p>
+                            </div>
+
+                            <div class="active-requests-card">
+                                <div class="sidebar-card-title">
+                                    🚀 Services en cours <span class="notification-badge" id="activeRequestsBadge">1</span>
+                                </div>
+                                <div id="activeRequestsContainer">
+                                    <div class="active-request" id="sampleActiveRequest">
+                                        <div class="active-request-status">En route vers patient</div>
+                                        <div style="color: #4a5568; font-size: 13px; margin-bottom: 4px;">M. Ahmed Benali - Pansements</div>
+                                        <div style="color: #4a5568; font-size: 13px; margin-bottom: 4px;">📍 Cité 500 logements, Oued Smar</div>
+                                        <div style="color: #718096; font-size: 12px; margin-top: 8px;">Départ: 14:30 - ETA: 15:15</div>
+                                    </div>
+                                </div>
+                                </div>
+
+                            <div class="feedback-card">
+                                <div class="sidebar-card-title">
+                                    ⭐ Avis récents
+                                </div>
+                                <div class="feedback-item">
+                                    <div class="feedback-header">
+                                        <div class="feedback-rating">⭐⭐⭐⭐⭐</div>
+                                        <div class="feedback-date">Hier</div>
+                                    </div>
+                                    <div class="feedback-text">
+                                        "Service excellent, équipe très professionnelle. Je recommande vivement!"
+                                    </div>
+                                </div>
+                                <div class="feedback-item">
+                                    <div class="feedback-header">
+                                        <div class="feedback-rating">⭐⭐⭐⭐</div>
+                                        <div class="feedback-date">Il y a 2 jours</div>
+                                    </div>
+                                    <div class="feedback-text">
+                                        "Ponctuel et efficace. L'infirmière était très gentille avec ma mère."
+                                    </div>
+                                </div>
+                                <div class="feedback-item">
+                                    <div class="feedback-header">
+                                        <div class="feedback-rating">⭐⭐⭐⭐⭐</div>
+                                        <div class="feedback-date">Il y a 3 jours</div>
+                                    </div>
+                                    <div class="feedback-text">
+                                        "Très satisfait du service. Intervention rapide et soins de qualité."
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="planning-section" class="section-content">
+                <div class="content-area">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">📅 Planning des rendez-vous</div>
+                            <button class="btn btn-primary" onclick="showAddAppointmentModal()">+ Nouveau RDV</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date & Heure</th>
+                                        <th>Patient</th>
+                                        <th>Service</th>
+                                        <th>Statut</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="appointmentsTable">
+                                    <tr>
+                                        <td>26/09/2025 - 09:00</td>
+                                        <td>M. Ahmed Benali</td>
+                                        <td>Consultation générale</td>
+                                        <td><span class="status-badge status-confirmed">Confirmé</span></td>
+                                        <td>
+                                            <button class="btn-secondary">Modifier</button>
+                                            <button class="btn-secondary">Annuler</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>26/09/2025 - 14:30</td>
+                                        <td>Mme Fatima Djelali</td>
+                                        <td>Pansements</td>
+                                        <td><span class="status-badge status-pending">En attente</span></td>
+                                        <td>
+                                            <button class="btn-secondary">Modifier</button>
+                                            <button class="btn-secondary">Annuler</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="patients-section" class="section-content">
+                <div class="content-area">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">👥 Base de données patients</div>
+                            <button class="btn btn-primary" onclick="showAddPatientModal()">+ Nouveau Patient</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Nom complet</th>
+                                        <th>Âge</th>
+                                        <th>Téléphone</th>
+                                        <th>Adresse</th>
+                                        <th>Dernière visite</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patientsTable">
+                                    <tr>
+                                        <td>M. Ahmed Benali</td>
+                                        <td>67 ans</td>
+                                        <td>0556 123 456</td>
+                                        <td>Cité 500 logements, Oued Smar</td>
+                                        <td>20/09/2025</td>
+                                        <td>
+                                            <button class="btn-secondary">Voir</button>
+                                            <button class="btn-secondary">Modifier</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Mme Fatima Djelali</td>
+                                        <td>52 ans</td>
+                                        <td>0661 789 012</td>
+                                        <td>Rue des Martyrs, Oued Smar</td>
+                                        <td>18/09/2025</td>
+                                        <td>
+                                            <button class="btn-secondary">Voir</button>
+                                            <button class="btn-secondary">Modifier</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="services-section" class="section-content">
+                <div class="content-area">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">12</div>
+                            <div class="stat-label">Services actifs</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">87</div>
+                            <div class="stat-label">Services ce mois</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">4.8</div>
+                            <div class="stat-label">Note moyenne</div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">🏥 Services proposés</div>
+                            <button class="btn btn-primary" onclick="showAddServiceModal()">+ Nouveau Service</button>
+                        </div>
+                        <div style="padding: 25px;">
+                            <div class="service-card">
+                                <h4>Soins infirmiers à domicile</h4>
+                                <p style="color: #666; margin: 10px 0;">Pansements, injections, soins post-opératoires</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 600; color: #2c7a7b;">2,500 DA / visite</span>
+                                    <div>
+                                        <button class="btn-secondary">Modifier</button>
+                                        <button class="btn-secondary">Désactiver</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="service-card">
+                                <h4>Consultation générale</h4>
+                                <p style="color: #666; margin: 10px 0;">Examen médical complet à domicile</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 600; color: #2c7a7b;">3,000 DA / consultation</span>
+                                    <div>
+                                        <button class="btn-secondary">Modifier</button>
+                                        <button class="btn-secondary">Désactiver</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="service-card">
+                                <h4>Kinésithérapie</h4>
+                                <p style="color: #666; margin: 10px 0;">Rééducation et physiothérapie à domicile</p>
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 600; color: #2c7a7b;">2,000 DA / séance</span>
+                                    <div>
+                                        <button class="btn-secondary">Modifier</button>
+                                        <button class="btn-secondary">Désactiver</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rapports-section" class="section-content">
+                <div class="content-area">
+                    <div class="chart-container">
+                        <h3 style="margin-bottom: 20px;">📈 Évolution des services (30 derniers jours)</h3>
+                        <div style="height: 250px;">
+                            <canvas id="serviceEvolutionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <h3 style="margin-bottom: 20px;">💰 Revenus mensuels (Année en cours)</h3>
+                        <div style="height: 250px;">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">📊 Statistiques détaillées</div>
+                            </div>
+                            <div style="padding: 25px;">
+                                <div style="margin-bottom: 20px;">
+                                    <strong>Services par type ce mois:</strong>
+                                    <ul style="margin-top: 10px; padding-left: 20px;">
+                                        <li>Soins infirmiers: 45 services</li>
+                                        <li>Consultations: 28 services</li>
+                                        <li>Kinésithérapie: 14 services</li>
+                                    </ul>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <strong>Zones les plus demandées:</strong>
+                                    <ul style="margin-top: 10px; padding-left: 20px;">
+                                        <li>Oued Smar: 52%</li>
+                                        <li>Dar El Beida: 28%</li>
+                                        <li>El Harrach: 20%</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">⭐ Satisfaction clients</div>
+                            </div>
+                            <div style="padding: 25px;">
+                                <div style="text-align: center; margin-bottom: 20px;">
+                                    <div style="font-size: 48px; color: #f6ad55;">4.8</div>
+                                    <div style="color: #666;">Note moyenne</div>
+                                </div>
+                                <div>
+                                    <div style="margin-bottom: 10px;">5⭐: 68%</div>
+                                    <div style="margin-bottom: 10px;">4⭐: 22%</div>
+                                    <div style="margin-bottom: 10px;">3⭐: 8%</div>
+                                    <div style="margin-bottom: 10px;">2⭐: 2%</div>
+                                    <div style="margin-bottom: 10px;">1⭐: 0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="messagerie-section" class="section-content">
+                <div class="content-area">
+                    <div class="card messaging-container"> 
+                        
+                        <div class="conversations-list-container">
+                            <div class="conversations-header">
+                                <h3>✉️ Conversations Patients</h3>
+                                <button class="btn btn-primary" style="padding: 8px 15px; font-size: 14px; width: auto;">+ Nouveau</button>
+                            </div>
+                            <div class="search-bar">
+                                <input type="text" class="form-control" placeholder="Rechercher un patient...">
+                            </div>
+                            
+                            <ul class="conversation-items">
+                                <li class="conversation-item active">
+                                    <div class="contact-info">
+                                        <div class="avatar" style="background: #e6fffa; color: #2c7a7b;">AB</div>
+                                        <div class="details">
+                                            <div class="name">Patient Ahmed Benali</div>
+                                            <div class="last-message">Oui, c'est mieux jeudi matin.</div>
+                                        </div>
+                                    </div>
+                                    <div class="timestamp">10:45</div>
+                                    <span class="unread-count" style="background: #e53e3e;">2</span>
+                                </li>
+                                <li class="conversation-item">
+                                    <div class="contact-info">
+                                        <div class="avatar" style="background: #fff3da; color: #d69e2e;">FD</div>
+                                        <div class="details">
+                                            <div class="name">Patient Fatima Djelali</div>
+                                            <div class="last-message">J'ai reçu les résultats, merci.</div>
+                                        </div>
+                                    </div>
+                                    <div class="timestamp">Hier</div>
+                                </li>
+                                <li class="conversation-item">
+                                    <div class="contact-info">
+                                        <div class="avatar" style="background: #f0f4f8; color: #4a5568;">MY</div>
+                                        <div class="details">
+                                            <div class="name">Patient Mourad Youcef</div>
+                                            <div class="last-message">Concernant ma facture...</div>
+                                        </div>
+                                    </div>
+                                    <div class="timestamp">Lun</div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="chat-area-container">
+                            <div class="chat-header-details">
+                                <h3>Patient Ahmed Benali</h3>
+                                <p class="status" style="color: #48bb78; font-weight: 500;">🟢 En ligne</p>
+                            </div>
+                            <div class="messages-history">
+                                <div class="message received">
+                                    <p>Bonjour. Est-ce possible de changer mon rendez-vous de consultation de mercredi à jeudi matin ?</p>
+                                    <span class="time">10:40</span>
+                                </div>
+                                <div class="message sent">
+                                    <p>Bonjour Monsieur Benali. Je vérifie nos disponibilités. Jeudi matin 9h30 est libre. Cela vous convient ?</p>
+                                    <span class="time">10:42</span>
+                                </div>
+                                <div class="message received">
+                                    <p>Oui, c'est mieux jeudi matin. Merci beaucoup !</p>
+                                    <span class="time">10:45</span>
+                                </div>
+                                <div style="height: 50px;"></div> 
+                            </div>
+                            <div class="message-input-area">
+                                <textarea class="form-control" placeholder="Écrire votre message..." rows="2"></textarea>
+                                <button class="btn btn-primary" style="width: auto; padding: 10px 20px;">Envoyer</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div id="finances-section" class="section-content">
+                <div class="content-area">
+                    <div class="finance-summary">
+                        <div class="finance-card">
+                            <h3>245,600 DA</h3>
+                            <p>Revenus ce mois</p>
+                        </div>
+                        <div class="finance-card">
+                            <h3>189,400 DA</h3>
+                            <p>Revenus mois dernier</p>
+                        </div>
+                        <div class="finance-card">
+                            <h3>+29.7%</h3>
+                            <p>Croissance</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">💰 Transactions récentes</div>
+                        </div>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Patient</th>
+                                        <th>Service</th>
+                                        <th>Montant</th>
+                                        <th>Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>25/09/2025</td>
+                                        <td>M. Ahmed Benali</td>
+                                        <td>Consultation</td>
+                                        <td>3,000 DA</td>
+                                        <td><span class="status-badge status-completed">Payé</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>24/09/2025</td>
+                                        <td>Mme Fatima Djelali</td>
+                                        <td>Pansements</td>
+                                        <td>2,500 DA</td>
+                                        <td><span class="status-badge status-pending">En attente</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="parametres-section" class="section-content">
+                <div class="content-area">
+                    <div class="settings-section">
+                        <div class="settings-title">🏥 Informations de la clinique</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nom de la clinique</label>
+                                <input type="text" class="form-control" value="Clinique Al-Shifaa">
+                            </div>
+                            <div class="form-group">
+                                <label>Téléphone</label>
+                                <input type="tel" class="form-control" value="023 45 67 89">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" value="contact@alshifaa.dz">
+                            </div>
+                            <div class="form-group">
+                                <label>Site web</label>
+                            <input type="url" class="form-control" value="www.alshifaa.dz">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Adresse complète</label>
+                            <textarea class="form-control" rows="3">Rue de la Liberté, Oued Smar, Alger</textarea>
+                        </div>
+                        <button class="btn btn-primary">Sauvegarder</button>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="settings-title">⚙️ Préférences de service</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Zone de couverture (km)</label>
+                                <input type="number" class="form-control" value="5" min="1" max="50">
+                            </div>
+                            <div class="form-group">
+                                <label>Heures d'ouverture</label>
+                                <select class="form-control">
+                                    <option>08:00 - 18:00</option>
+                                    <option>24h/24</option>
+                                    <option>Personnalisé</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="toggle-switch">
+                            <span>Notifications SMS</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-switch">
+                            <span>Notifications email</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <button class="btn btn-primary">Sauvegarder</button>
+                    </div>
+
+                    <div class="settings-section">
+                        <div class="settings-title">🔒 Sécurité</div>
+                        <div class="form-group">
+                            <label>Mot de passe actuel</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Nouveau mot de passe</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirmer le mot de passe</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <button class="btn btn-primary">Changer le mot de passe</button>
+                    </div>
+                </div>
+            </div>
+
+        </div> </div> 
+
+        <script src="clinics.js"></script>
+
+</body>
+</html>
